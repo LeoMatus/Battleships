@@ -1,3 +1,25 @@
-# Your code goes here.
-# You can delete these comments, but do not change the name of this file
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
+grid = []
+grid_size = 10
+rows, cols = (grid_size, grid_size)
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"    
+
+for row in range(rows):
+    grid.append([])
+    for colum in range(cols):
+        grid[row].append(".")
+
+
+print("   ", end="")
+
+for col in range(cols):
+    print(col + 1, end=" ")
+
+print("")
+
+for row in range(len(grid)):
+    print(alphabet[row], end=") ")
+    for col in range(len(grid[row])):
+        print(grid[row][col], end=" ")
+    print("")   
+    
+
