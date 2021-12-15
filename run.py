@@ -1,6 +1,7 @@
 import random
 
 grid = []
+ship = []
 grid_size = 10
 rows, cols = (grid_size, grid_size)
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"    
@@ -38,6 +39,7 @@ def check_if_input_is_valid(input):
         return False
         
 
+
 def start_game():
     create_grid()
     print_grid()
@@ -49,7 +51,7 @@ def fire_missile():
     while missile_placement is False:
         shot_placed = input("Choose a coordinate such as B5 to fire your missile: ")
         shot_placed = shot_placed.upper()
-        
+        row = None
         if check_if_input_is_valid(shot_placed) == False:
             print("Your selected coordinates need to concist of one letter and one number!")
             continue
@@ -60,16 +62,12 @@ def fire_missile():
                 break 
         col = int(shot_placed[1])-1
         
+        if grid[row][col] == ".":
+            grid[row][col] = "X"
+            print_grid()
         
-
-        
-
-        
-    
-    
 
 start_game()
-print_grid()
 
 
 #gör input till int -1 för att träffa rätt index, ex A1 = [0][0], converta också alphabetiska tecken till index positioner.
