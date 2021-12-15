@@ -39,18 +39,19 @@ def fire_missile():
     while missile_placement is False:
         shot_placed = input("Choose a coordinate such as B5 to fire your missile: ")
         shot_placed = shot_placed.upper()
-        row = shot_placed[0]
-        col = shot_placed[1]
-        print(row)
-        print("")
-        print(col)
+        for i in range(len(alphabet)):
+            if shot_placed[0] == alphabet[i]:
+                row = i
+                break 
+
+        col = int(shot_placed[1])-1
+        
         
     
     
 
 start_game()
-grid[0][2] = 0
 print_grid()
-fire_missile()
+
 
 #gör input till int -1 för att träffa rätt index, ex A1 = [0][0], converta också alphabetiska tecken till index positioner.
