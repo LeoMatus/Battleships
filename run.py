@@ -12,12 +12,18 @@ missiles_left = 50
 
 
 def create_grid():
+    """
+    Creates a 10x10 grid
+    """
     for row in range(rows):
         grid.append([])
         for colum in range(cols):
             grid[row].append(".")
 
 def print_grid():
+    """
+    Prints the grid to the terminal with alphabetical end numerical positions for each coordinate
+    """
     print("   ", end="")
 
     for col in range(cols):
@@ -41,11 +47,17 @@ def check_if_input_is_valid(input):
 
 
 def start_game():
+    """
+    This is the main function, it calls upon the other functions for the game to start
+    """
     create_grid()
     print_grid()
     fire_missile()
 
 def fire_missile():
+    """
+    Fires a missile by taking an input value from the user. If the value is written in the wrong format it gives an error message and asks the user to try again.
+    """
     missile_placement = False
 
     while missile_placement is False:
