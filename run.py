@@ -38,6 +38,9 @@ def print_grid():
         print("")
 
 def check_if_input_is_valid(input):
+    """
+    Checks if the user input is valid. it must contain a letter from A-J followed by a number from 1-10
+    """
     if len(input) < 2 or len(input) > 2:
         return False
         
