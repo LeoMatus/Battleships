@@ -1,4 +1,4 @@
-import random
+from random import randint
 
 grid = []
 ship = []
@@ -82,7 +82,22 @@ def fire_missile():
             print_grid()
         
 
+def place_ship(grid):
+    """
+    Places a 3 position long ship randomly on the grid
+    """
+    orientation = [h, v][randint(0, 1)]
+
+    if orientation == "h":
+        x = randint(0, 6)
+        y = randint(0, 9)
+        grid[y][x] = grid[y][x+1] = grid[y][x+2] = '0'
+    if orientation == "v":
+        x = randint(0, 9)
+        y = randint(0, 6)
+        grid[y][x] = grid[y+1][x] = grid[y+2][x] = '0'
+
+
 start_game()
 
 
-#gör input till int -1 för att träffa rätt index, ex A1 = [0][0], converta också alphabetiska tecken till index positioner.
