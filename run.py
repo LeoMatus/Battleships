@@ -4,7 +4,7 @@ grid = []
 ship = []
 grid_size = 10
 rows, cols = (grid_size, grid_size)
-alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+alphabet = "ABCDEFGHIJ"
 ship_hit = "X"
 water_hit = "~"
 missiles_left = 50
@@ -46,13 +46,14 @@ def check_if_input_is_valid(input):
     Checks if the user input is valid. it must contain a letter from A-J followed by a number from 1-10
     """
     if len(input) == 3:
-        input[1] != 1 and input[2] != 0
-        return False
+        is_ten = int(input[1] + input[2])
+        if is_ten != 10:
+            return False
 
     if len(input) < 2 or len(input) > 3:
         return False
    
-    if not input[0].isalpha() or not input[1].isnumeric():
+    if not input[0].isalpha() or input[0] not in alphabet or not input[1].isnumeric():
         return False
         
 
@@ -77,7 +78,7 @@ def fire_missile():
         shot_placed = shot_placed.upper()
         row = None
         if check_if_input_is_valid(shot_placed) is False:
-            print("Your selected coordinates need to concist of one letter and one number!")
+            print("Your selected coordinates need to concist of one letter (A-J) and one number (1-10)!")
             continue
 
         for i in range(len(alphabet)):
