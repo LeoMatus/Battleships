@@ -4,7 +4,7 @@ grid = []
 ship = []
 grid_size = 10
 rows, cols = (grid_size, grid_size)
-alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"    
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 ship_hit = "X"
 water_hit = "~"
 missiles_left = 50
@@ -34,28 +34,37 @@ def print_grid():
     for row in range(len(grid)):
         print(alphabet[row], end=") ")
         for col in range(len(grid[row])):
-            print(grid[row][col], end=" ")
+            if grid[row][col] == "0":
+                print(".", end=" ")
+            else:
+                print(grid[row][col], end=" ")
         print("")
+
 
 def check_if_input_is_valid(input):
     """
     Checks if the user input is valid. it must contain a letter from A-J followed by a number from 1-10
     """
-    if len(input) < 2 or len(input) > 2:
+    if len(input) == 3:
+        input[1] != 1 and input[2] != 0
         return False
-        
+
+    if len(input) < 2 or len(input) > 3:
+        return False
+   
     if not input[0].isalpha() or not input[1].isnumeric():
         return False
         
-
 
 def start_game():
     """
     This is the main function, it calls upon the other functions for the game to start
     """
     create_grid()
+    place_ship(grid)
     print_grid()
     fire_missile()
+
 
 def fire_missile():
     """
@@ -67,26 +76,32 @@ def fire_missile():
         shot_placed = input("Choose a coordinate such as B5 to fire your missile: ")
         shot_placed = shot_placed.upper()
         row = None
-        if check_if_input_is_valid(shot_placed) == False:
+        if check_if_input_is_valid(shot_placed) is False:
             print("Your selected coordinates need to concist of one letter and one number!")
             continue
 
         for i in range(len(alphabet)):
             if shot_placed[0] == alphabet[i]:
                 row = i
-                break 
-        col = int(shot_placed[1])-1
+                break
         
+        if len(shot_placed) == 3:
+            col = int(shot_placed[1] + shot_placed[2])-1
+        else:
+            col = int(shot_placed[1])-1
+
         if grid[row][col] == ".":
             grid[row][col] = "X"
             print_grid()
-        
+        if grid[row][col] == "0":
+            grid[row][col] = "H"
+            print_grid()
 
 def place_ship(grid):
     """
     Places a 3 position long ship randomly on the grid
     """
-    orientation = [h, v][randint(0, 1)]
+    orientation = ["h", "v"][randint(0, 1)]
 
     if orientation == "h":
         x = randint(0, 6)
@@ -99,5 +114,4 @@ def place_ship(grid):
 
 
 start_game()
-
 
