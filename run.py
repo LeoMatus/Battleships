@@ -38,7 +38,7 @@ def print_grid():
         print(alphabet[row], end=") ")
         for col in range(len(grid[row])):
             if grid[row][col] == "0":
-                print(".", end=" ")
+                print("0", end=" ")
             else:
                 print(grid[row][col], end=" ")
         print("")
@@ -65,7 +65,7 @@ def start_game():
     This is the main function, it calls upon the other functions for the game to start
     """
     create_grid()
-    for ship in range(0, ships_to_be_placed):
+    for ship in range(ships_to_be_placed):
         place_ship(grid)
     print_grid()
     fire_missile()
@@ -113,22 +113,16 @@ def place_ship(grid):
     if orientation == "h":
         x = randint(0, 6)
         y = randint(0, 9)
-        if ship_length == 1:
-            grid[y][x] = '0'
-        elif ship_length == 2:
-            grid[y][x] = grid[y][x+1] = '0'
-        elif ship_length == 3:
-            grid[y][x] = grid[y][x+1] = grid[y][x+2] = '0'
+        
+        for length in range(ship_length):
+            grid[y][x+length] = "0"
     if orientation == "v":
         x = randint(0, 9)
         y = randint(0, 6)
 
-        if ship_length == 1:
-            grid[y][x] = '0'
-        elif ship_length == 2:
-            grid[y][x] = grid[y+1][x] = '0'
-        elif ship_length == 3:
-            grid[y][x] = grid[y+1][x] = grid[y+2][x] = '0'
+        for length in range(ship_length):
+            grid[y+length][x] = "0"
+        
     ships_placed += 1
 
 
