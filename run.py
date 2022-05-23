@@ -8,6 +8,9 @@ alphabet = "ABCDEFGHIJ"
 ship_hit = "X"
 water_hit = "~"
 missiles_left = 50
+ships_to_be_placed = 8
+ships_placed = 0
+
 
 
 
@@ -62,7 +65,8 @@ def start_game():
     This is the main function, it calls upon the other functions for the game to start
     """
     create_grid()
-    place_ship(grid)
+    for ship in range(0, ships_to_be_placed):
+        place_ship(grid)
     print_grid()
     fire_missile()
 
@@ -102,16 +106,30 @@ def place_ship(grid):
     """
     Places a 3 position long ship randomly on the grid
     """
+    global ships_placed
     orientation = ["h", "v"][randint(0, 1)]
+    ship_length = randint(1, 3)
 
     if orientation == "h":
         x = randint(0, 6)
         y = randint(0, 9)
-        grid[y][x] = grid[y][x+1] = grid[y][x+2] = '0'
+        if ship_length == 1:
+            grid[y][x] = '0'
+        elif ship_length == 2:
+            grid[y][x] = grid[y][x+1] = '0'
+        elif ship_length == 3:
+            grid[y][x] = grid[y][x+1] = grid[y][x+2] = '0'
     if orientation == "v":
         x = randint(0, 9)
         y = randint(0, 6)
-        grid[y][x] = grid[y+1][x] = grid[y+2][x] = '0'
+
+        if ship_length == 1:
+            grid[y][x] = '0'
+        elif ship_length == 2:
+            grid[y][x] = grid[y+1][x] = '0'
+        elif ship_length == 3:
+            grid[y][x] = grid[y+1][x] = grid[y+2][x] = '0'
+    ships_placed += 1
 
 
 start_game()
