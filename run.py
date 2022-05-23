@@ -109,21 +109,50 @@ def place_ship(grid):
     global ships_placed
     orientation = ["h", "v"][randint(0, 1)]
     ship_length = randint(1, 3)
+    x, y = find_ship_position(grid, orientation, ship_length)
 
     if orientation == "h":
-        x = randint(0, 6)
-        y = randint(0, 9)
-        
         for length in range(ship_length):
-            grid[y][x+length] = "0"
+            grid[x+length][y] = "0"
     if orientation == "v":
-        x = randint(0, 9)
-        y = randint(0, 6)
-
         for length in range(ship_length):
-            grid[y+length][x] = "0"
+            grid[x][y+length] = "0"
         
     ships_placed += 1
+
+def find_ship_position(grid, direction, length):
+    """
+    This function checks if the ship that is being placed fits and does not collide with any other ships"
+    """
+    position_okay = True
+    x = None
+    y = None
+    
+    if direction == "h":
+        x = randint(0, 10 - length)
+        y = randint(0, 9)
+        
+        for i in range(length):
+            if grid[x + i][y] == '0':
+                position_okay = False
+                break
+    
+    if direction == "v":
+        x = randint(0, 9)
+        y = randint(0, 10 - length)
+        
+        for i in range(length):
+            if grid[x][y + i] == '0':
+                position_okay = False
+                break
+    
+    if position_okay == False:
+        x, y = find_ship_position(grid, direction, length)
+    
+    return x, y
+
+
+
 
 
 start_game()
