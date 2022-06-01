@@ -7,7 +7,7 @@ rows, cols = (grid_size, grid_size)
 alphabet = "ABCDEFGHIJ"
 ship_hit = "X"
 water_hit = "~"
-missiles_left = 50
+missiles_left = 5
 ships_to_be_placed = 8
 ships_placed = 0
 
@@ -70,14 +70,25 @@ def start_game():
     print_grid()
     fire_missile()
 
+def game_over():
+    """
+    Function gets called upon when there are no more attemts to be made at sinking a ship.
+    """
+    print('You have run out of missiles, get back to base... Mission failed.')
+    play_again = input('Do you want to try again? YES/NO:')
+    if play_again == 'YES':
+        missiles_left = 30
+        ships_placed = 0
+        start_game()
 
 def fire_missile():
     """
     Fires a missile by taking an input value from the user. If the value is written in the wrong format it gives an error message and asks the user to try again.
     """
-    missile_placement = False
+    missile_placement = True
+    global missiles_left
 
-    while missile_placement is False:
+    while missile_placement is True:
         shot_placed = input("Choose a coordinate such as B5 to fire your missile: ")
         shot_placed = shot_placed.upper()
         row = None
@@ -97,10 +108,16 @@ def fire_missile():
 
         if grid[row][col] == ".":
             grid[row][col] = "X"
+            missiles_left -= 1
             print_grid()
         if grid[row][col] == "0":
             grid[row][col] = "H"
+            missiles_left -= 1
             print_grid()
+        if missiles_left == 0:
+            game_over()
+            missile_placement = False
+
 
 def place_ship(grid):
     """
