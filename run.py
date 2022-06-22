@@ -70,16 +70,29 @@ def start_game():
     print_grid()
     fire_missile()
 
+def restart_game():
+    """
+    This function clears the current game field and creates a new one
+    """
+    global missiles_left, ships_placed
+
+    missiles_left = 30
+    ships_placed = 0
+    
+    grid.clear()
+    start_game()
+
+
 def game_over():
     """
     Function gets called upon when there are no more attemts to be made at sinking a ship.
     """
     print('You have run out of missiles, get back to base... Mission failed.')
-    play_again = input('Do you want to try again? YES/NO:')
+    play_again = input("If you'd like to try again, type yes:").upper()
     if play_again == 'YES':
-        missiles_left = 30
-        ships_placed = 0
-        start_game()
+        restart_game()
+    if play_again != "YES":
+        game_over()
 
 def fire_missile():
     """
