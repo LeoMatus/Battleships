@@ -2,16 +2,14 @@ from random import randint
 
 grid = []
 ship = []
-grid_size = 10
-rows, cols = (grid_size, grid_size)
+rows, cols = (10, 10)
 alphabet = "ABCDEFGHIJ"
 ship_hit = "X"
 water_hit = "~"
-missiles_left = 5
+missiles_left = 30
 ships_to_be_placed = 8
 ships_placed = 0
-
-
+ships_left = 0
 
 
 def create_grid():
@@ -22,6 +20,7 @@ def create_grid():
         grid.append([])
         for colum in range(cols):
             grid[row].append(".")
+
 
 def print_grid():
     """
@@ -70,6 +69,7 @@ def start_game():
     print_grid()
     fire_missile()
 
+
 def restart_game():
     """
     This function clears the current game field and creates a new one
@@ -87,12 +87,25 @@ def game_over():
     """
     Function gets called upon when there are no more attemts to be made at sinking a ship.
     """
-    print('You have run out of missiles, get back to base... Mission failed.')
-    play_again = input("If you'd like to try again, type yes:").upper()
+    global ships_left
+    
+    if ships_left is 0:
+        print('Well done! All enemy ships have been destroyed')
+    elif missiles_left is 0 and ships_left is not 0:
+        print('You have run out of missiles, get back to base... Mission failed.')
+    
+    
+    play_again = input("If you'd like to play again, type yes:").upper()
     if play_again == 'YES':
         restart_game()
     if play_again != "YES":
         game_over()
+
+def game_won():
+    """
+    Function triggers when all ship parts are hit by a missile
+    """
+
 
 def fire_missile():
     """
@@ -100,6 +113,7 @@ def fire_missile():
     """
     missile_placement = True
     global missiles_left
+    global ships_left
 
     while missile_placement is True:
         shot_placed = input("Choose a coordinate such as B5 to fire your missile: ")
@@ -126,7 +140,10 @@ def fire_missile():
         if grid[row][col] == "0":
             grid[row][col] = "H"
             missiles_left -= 1
-            print_grid()
+            ships_left -= 1
+            print(grid)
+            if ships_left is 0:
+                game_over()
         if missiles_left == 0:
             game_over()
             missile_placement = False
@@ -137,8 +154,10 @@ def place_ship(grid):
     Places a 3 position long ship randomly on the grid
     """
     global ships_placed
+    global ships_left
     orientation = ["h", "v"][randint(0, 1)]
     ship_length = randint(1, 3)
+    ships_left += ship_length
     x, y = find_ship_position(grid, orientation, ship_length)
 
     if orientation == "h":
@@ -150,6 +169,7 @@ def place_ship(grid):
         
     ships_placed += 1
 
+
 def find_ship_position(grid, direction, length):
     """
     This function checks if the ship that is being placed fits and does not collide with any other ships"
@@ -157,33 +177,29 @@ def find_ship_position(grid, direction, length):
     position_okay = True
     x = None
     y = None
-    
+
     if direction == "h":
         x = randint(0, 10 - length)
         y = randint(0, 9)
-        
+
         for i in range(length):
             if grid[x + i][y] == '0':
                 position_okay = False
                 break
-    
+
     if direction == "v":
         x = randint(0, 9)
         y = randint(0, 10 - length)
-        
+
         for i in range(length):
             if grid[x][y + i] == '0':
                 position_okay = False
                 break
-    
-    if position_okay == False:
+
+    if position_okay is False:
         x, y = find_ship_position(grid, direction, length)
-    
+
     return x, y
 
 
-
-
-
 start_game()
-
