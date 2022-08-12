@@ -37,7 +37,7 @@ def print_grid():
         print(alphabet[row], end=") ")
         for col in range(len(grid[row])):
             if grid[row][col] == "0":
-                print("0", end=" ")
+                print(".", end=" ")
             else:
                 print(grid[row][col], end=" ")
         print("")
@@ -48,6 +48,8 @@ def check_if_input_is_valid(input):
     Checks if the user input is valid. it must contain a letter from A-J followed by a number from 1-10
     """
     if len(input) == 3:
+        if input[2].isalpha():
+            return False
         is_ten = int(input[1] + input[2])
         if is_ten != 10:
             return False
@@ -130,6 +132,7 @@ def fire_missile():
         
         if len(shot_placed) == 3:
             col = int(shot_placed[1] + shot_placed[2])-1
+            print(col)
         else:
             col = int(shot_placed[1])-1
 
@@ -141,7 +144,7 @@ def fire_missile():
             grid[row][col] = "H"
             missiles_left -= 1
             ships_left -= 1
-            print(grid)
+            print_grid()
             if ships_left is 0:
                 game_over()
         if missiles_left == 0:
